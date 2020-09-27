@@ -10,16 +10,19 @@ public class Solution {
     public static void main(String[] args) {
 //        System.out.println(Arrays.toString(new Solution().twoSum(new int[]{1, 3, 5, 9}, 10)));
 
-        System.out.println(0x7fffffff);
+        System.out.println(7 % 10);
+        System.out.println(Long.MAX_VALUE);
 
-        ListNode l1 = new ListNode(9);
-        ListNode l2 = new ListNode(1);
-        l2.addNode(new ListNode(9)).addNode(new ListNode(9)).addNode(new ListNode(9)).addNode(new ListNode(9)).addNode(new ListNode(9))
-                .addNode(new ListNode(9)).addNode(new ListNode(9)).addNode(new ListNode(9)).addNode(new ListNode(9));
+        ListNode l1 = new ListNode(2);
+        l1.addNode(4).addNode(3);
+        ListNode l2 = new ListNode(5);
+        l2.addNode(6).addNode(4);
+//        l2.addNode(6).addNode(4);
 
         System.out.println(l1);
         System.out.println(l2);
-        System.out.println(new Solution().addTwoNumbers(l1, l2));
+        System.out.println(new Solution().addTwoNumbers2(l1, l2));
+
 
     }
 
@@ -73,7 +76,8 @@ public class Solution {
      * 输入：(2 -> 4 -> 3) + (5 -> 6 -> 4)
      * 输出：7 -> 0 -> 8
      * 原因：342 + 465 = 807
-     * <p>
+     * <p>[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]
+     * [5,6,4]
      * 来源：力扣（LeetCode）
      * 链接：https://leetcode-cn.com/problems/add-two-numbers
      * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
@@ -116,6 +120,47 @@ public class Solution {
         return res;
     }
 
+    public ListNode addTwoNumbers2(ListNode l1, ListNode l2) {
+        int carry = 0;
+        ListNode result = new ListNode(0), current = result;
+        while (l1 != null || l2 != null || carry > 0) {
+            int i = 0;
+            if (l1 != null) {
+                i = l1.val;
+                l1 = l1.next;
+            }
+            int j = 0;
+            if (l2 != null) {
+                j = l2.val;
+                l2 = l2.next;
+            }
+            int sum = i + j + carry;
+
+            carry = sum / 10;
+            sum = carry > 0 ? sum % 10 : sum;
+            current.next = new ListNode(sum);
+            current = current.next;
+        }
+
+        return result.next;
+
+
+    }
+
+    public ListNode reverse(ListNode listNode) {
+        ListNode current = listNode;
+        ListNode before = null;
+        while (current.next != null) {
+            ListNode tmp = current;
+            current = tmp.next;
+            tmp.next = before;
+            before = tmp;
+        }
+        current.next = before;
+        return current;
+    }
+
+
     static class ListNode {
         int val;
         ListNode next;
@@ -124,9 +169,10 @@ public class Solution {
             val = x;
         }
 
-        public ListNode addNode(ListNode listNode) {
-            this.next = listNode;
-            return listNode;
+        public ListNode addNode(int val) {
+            ListNode next = new ListNode(val);
+            this.next = next;
+            return next;
         }
 
         @Override
