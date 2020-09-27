@@ -1,13 +1,26 @@
 package org.meng.letcode.day01;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author meng
  */
 public class Solution {
     public static void main(String[] args) {
-        System.out.println(Arrays.toString(new Solution().twoSum(new int[]{1, 3, 5, 9}, 10)));
+//        System.out.println(Arrays.toString(new Solution().twoSum(new int[]{1, 3, 5, 9}, 10)));
+
+        System.out.println(0x7fffffff);
+
+        ListNode l1 = new ListNode(9);
+        ListNode l2 = new ListNode(1);
+        l2.addNode(new ListNode(9)).addNode(new ListNode(9)).addNode(new ListNode(9)).addNode(new ListNode(9)).addNode(new ListNode(9))
+                .addNode(new ListNode(9)).addNode(new ListNode(9)).addNode(new ListNode(9)).addNode(new ListNode(9));
+
+        System.out.println(l1);
+        System.out.println(l2);
+        System.out.println(new Solution().addTwoNumbers(l1, l2));
+
     }
 
     /**
@@ -66,7 +79,41 @@ public class Solution {
      * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
      */
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        return null;
+        List<Integer> numList = new ArrayList<>();
+        ListNode l = l1;
+        numList.add(l.val);
+        while ((l = l.next) != null) {
+            numList.add(l.val);
+        }
+        long num1 = 0;
+        long times = 1;
+        for (long value : numList) {
+            num1 += value * times;
+            times *= 10;
+        }
+        numList.clear();
+        l = l2;
+        numList.add(l.val);
+        while ((l = l.next) != null) {
+            numList.add(l.val);
+        }
+        long num2 = 0;
+        times = 1;
+        for (long integer : numList) {
+            num2 += integer * times;
+            times *= 10;
+        }
+        long sum = num1 + num2;
+        ListNode res = new ListNode((int) (sum % 10L));
+        sum /= 10;
+        ListNode tmp = res;
+        while (sum > 0) {
+            tmp.next = new ListNode((int) (sum % 10L));
+            tmp = tmp.next;
+            sum /= 10;
+        }
+
+        return res;
     }
 
     static class ListNode {
@@ -75,6 +122,21 @@ public class Solution {
 
         ListNode(int x) {
             val = x;
+        }
+
+        public ListNode addNode(ListNode listNode) {
+            this.next = listNode;
+            return listNode;
+        }
+
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder(String.valueOf(this.val));
+            ListNode l = this;
+            while ((l = l.next) != null) {
+                sb.append("->").append(l.val);
+            }
+            return sb.toString();
         }
     }
 }
