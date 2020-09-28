@@ -1,7 +1,5 @@
 package org.meng.letcode.day02;
 
-import javax.swing.*;
-
 /**
  * @author meng
  */
