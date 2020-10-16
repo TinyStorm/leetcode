@@ -67,22 +67,20 @@ public class Solution {
      * @return
      */
     public int lengthOfLongestSubstring2(String s) {
+        int cursor = 0;
         int max = 0;
         int tmp = 0;
-        int cursor = 0;
-        Set<Character> characters = new HashSet<>(s.length());
+        Set<Character> set = new HashSet<>();
         for (int i = 0; i < s.length(); i++) {
-            char current = s.charAt(i);
-            if (!characters.contains(current)) {
-                characters.add(current);
-                tmp++;
-            } else {
-                cursor = s.indexOf(cursor, i) + 1;
-                i = cursor;
-                characters.clear();
-                max = Math.max(tmp, max);
-                tmp = 0;
+            char cha = s.charAt(i);
+            while (set.contains(cha) && cursor < i) {
+                set.remove(s.charAt(cursor));
+                cursor++;
+                tmp--;
             }
+            set.add(cha);
+            tmp++;
+            max = Math.max(tmp, max);
         }
         return max;
 
